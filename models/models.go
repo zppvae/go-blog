@@ -28,7 +28,7 @@ type User struct {
  */
 func RegisterDB() {
 	// set default database
-	orm.RegisterDataBase("default", "mysql", "root:123456@tcp(127.0.0.1:3306)/go-blog?charset=utf8", 30)
+	orm.RegisterDataBase("default", "mysql", "root:root@tcp(127.0.0.1:3306)/go-blog?charset=utf8", 30)
 
 	// register model
 	orm.RegisterModel(new(User))
@@ -40,7 +40,7 @@ func GetUser(username,password string) (*User, error) {
 
 	user := new(User)
 
-	qs := o.QueryTable("topic")
+	qs := o.QueryTable(USER_TABLE)
 	err := qs.Filter("username", username).One(user)
 	if err != nil {
 		return nil, err
