@@ -42,12 +42,16 @@ func (this *LoginController) Login() {
 			}
 
 			this.Ctx.SetCookie("uname", username, maxAge, "/")
-			this.Ctx.SetCookie("pwd", password, maxAge, "/")
-
+			this.redirect(beego.URLFor("HomeController.index"))
 		}
 	}
 
-	this.TplName = "login.html"
+	this.TplName = "login.tpl"
+}
+
+func (this *LoginController) Logout() {
+	this.Ctx.SetCookie("uname","")
+	this.redirect(beego.URLFor("LoginController.Login"))
 }
 
 func checkAccount(ctx *context.Context) bool {
