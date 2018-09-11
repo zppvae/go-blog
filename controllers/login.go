@@ -4,6 +4,7 @@ import (
 	"github.com/astaxie/beego/context"
 	"github.com/astaxie/beego"
 	"go-blog/models"
+	"fmt"
 )
 
 /*
@@ -41,7 +42,8 @@ func (this *LoginController) Login() {
 				maxAge = 1<<5 - 1
 			}
 
-			this.Ctx.SetCookie("uname", username, maxAge, "/")
+			this.Ctx.SetCookie("uname", username, maxAge)
+			this.Ctx.SetCookie("userId", fmt.Sprint(user.Id), maxAge)
 			this.redirect(beego.URLFor("HomeController.Index"))
 		}
 	}
@@ -51,6 +53,7 @@ func (this *LoginController) Login() {
 
 func (this *LoginController) Logout() {
 	this.Ctx.SetCookie("uname","")
+	this.Ctx.SetCookie("userId","")
 	this.redirect(beego.URLFor("LoginController.Login"))
 }
 

@@ -14,6 +14,6 @@ func init() {
 	beego.Router("/article/list", &controllers.ArticleController{},"*:List")
 	beego.Router("/article/add", &controllers.ArticleController{},"*:Add")
 	beego.Router("/article/upload", &controllers.ArticleController{},"*:Upload")
-	beego.Router("/article/save", &controllers.ArticleController{},"*:Post")
+	beego.Router("/article/save", &controllers.ArticleController{},"*:Save")
 	beego.Router("/article/update", &controllers.ArticleController{},"*:Post")
 }

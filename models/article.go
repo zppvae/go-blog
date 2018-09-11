@@ -17,7 +17,7 @@ const (
 type Article struct {
 	Id         int32
 	Title      string
-	UserId     int32
+	UserId     int
 	ChannelId  int64                            //模块ID
 	Comments   int                            //评论数
 	Created    time.Time

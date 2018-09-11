@@ -46,7 +46,6 @@
                                     tinymce.init({
                                         selector: "#view_content",
                                         theme: 'modern',
-                                        upload_image_url: "/article/upload", //配置的上传图片的路由
                                         height: 400,
                                         plugins: [
                                             'advlist autolink autosave lists link image print anchor codesample',
@@ -122,5 +121,15 @@
             }
         });
     });
+
+    layui.use(['layer','form'], function(){
+        var layer = layui.layer; //弹层
+        var form = layui.form;
+        var error_info = "{{.flash.error}}";
+        if(error_info){
+            layer.msg(error_info,{time:2000,offset: '100px'});
+        }
+
+    })
 </script>
 

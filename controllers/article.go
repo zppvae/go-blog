@@ -48,7 +48,7 @@ func (this *ArticleController) Save(){
 		// 保存附件
 		attachment = fh.Filename
 		beego.Info(attachment)
-		err = this.SaveToFile("attachment", path.Join("static/attachment", attachment))
+		err = this.SaveToFile("file", path.Join("static/upload", attachment))
 		if err != nil {
 			beego.Error(err)
 		}
@@ -59,8 +59,19 @@ func (this *ArticleController) Save(){
 	article.ChannelId = channelId
 	article.Tags = tags
 	article.Created = time.Now()
+	userId,err := strconv.Atoi(this.Ctx.GetCookie("userId"))
+	article.UserId = userId
+	article.Thumbnail = attachment
 
-
+	flash := beego.NewFlash()
+	_,err = models.ArticleAdd(article)
+	if err != nil {
+		flash.Error( "添加文章错误")
+		flash.Store(&this.Controller)
+		return
+	}
+	flash.Notice("添加成功")
+	this.redirect(beego.URLFor("ArticleController.List"))
 }
 
 //上传图片
