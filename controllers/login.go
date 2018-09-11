@@ -15,7 +15,7 @@ type LoginController struct {
 }
 
 func (this *LoginController) Login() {
-	if checkAccount(this.Ctx) {
+	if CheckAccount(this.Ctx) {
 		this.redirect("/index")
 	}
 	beego.ReadFromRequest(&this.Controller)
@@ -38,11 +38,11 @@ func (this *LoginController) Login() {
 		} else {
 			maxAge := 0
 			if autoLogin {
-				maxAge = 1<<31 - 1
+				maxAge = 1<<5 - 1
 			}
 
 			this.Ctx.SetCookie("uname", username, maxAge, "/")
-			this.redirect(beego.URLFor("HomeController.index"))
+			this.redirect(beego.URLFor("HomeController.Index"))
 		}
 	}
 
@@ -54,26 +54,13 @@ func (this *LoginController) Logout() {
 	this.redirect(beego.URLFor("LoginController.Login"))
 }
 
-func checkAccount(ctx *context.Context) bool {
-	ck, err := ctx.Request.Cookie("uname")
+func CheckAccount(ctx *context.Context) bool {
+	uname, err := ctx.Request.Cookie("uname")
 	if err != nil {
 		return false
 	}
 
-	uname := ck.Value
-
-	ck, err = ctx.Request.Cookie("pwd")
-	if err != nil {
-		return false
-	}
-
-	pwd := ck.Value
-
-	_,err = models.GetUser(uname,pwd)
-
-	// 验证用户名及密码
-	if err != nil{
-		beego.Error("用户登录失败")
+	if uname.Value == "" {
 		return false
 	}
 	return true

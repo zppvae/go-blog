@@ -12,7 +12,13 @@ import (
    @Time : 2018/9/10 10:32 
    @Author : ff
 */
+const (
+	CODE_OK = 200
+	CODE_ERROR = 400
+	CODE_NOT_FOUND = 404
 
+	MSG_SUCCESS = "success"
+)
 
 var emailPattern = regexp.MustCompile("[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[a-zA-Z0-9](?:[\\w-]*[\\w])?")
 
