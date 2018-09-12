@@ -27,9 +27,8 @@
 <script src="/static/layui/layui.js?t=1504439386550" charset="utf-8"></script>
 <!-- <script src="https://cdn.bootcss.com/jquery/1.8.3/jquery.js"></script>-->
 <script type="text/javascript">
-    layui.use(['layer','form'], function(){
+    layui.use(['layer'], function(){
         var layer = layui.layer; //弹层
-        var form = layui.form;
         var error_info = "{{.flash.error}}";
         if(error_info){
             layer.msg(error_info,{time:2000,offset: '100px'});

@@ -35,7 +35,7 @@ func (this *LoginController) Login() {
 			errorMsg = "帐号或密码错误"
 			flash.Error(errorMsg)
 			flash.Store(&this.Controller)
-			this.redirect(beego.URLFor("LoginController.Login"))
+			this.redirect("article/add")
 		} else {
 			maxAge := 0
 			if autoLogin {

@@ -92,9 +92,16 @@
         </div>
     </div>
 </div>
-
+<script src="/static/layui/layui.js?t=1504439386550" charset="utf-8"></script>
 <script type="text/javascript">
+
+
+    var error = "{{.flash.error}}";
+    if(error){
+        layer.msg(error,{time:2000});
+    }
     $(function() {
+        console.log("sss"+{{.flash.error}})
         $('#tags').tagit({
             singleField: true,
             singleFieldNode: $('#fieldTags')
@@ -122,14 +129,5 @@
         });
     });
 
-    layui.use(['layer','form'], function(){
-        var layer = layui.layer; //弹层
-        var form = layui.form;
-        var error_info = "{{.flash.error}}";
-        if(error_info){
-            layer.msg(error_info,{time:2000,offset: '100px'});
-        }
-
-    })
 </script>
 

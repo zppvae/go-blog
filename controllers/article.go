@@ -8,11 +8,13 @@ import (
 	"path"
 	"go-blog/models"
 	"strconv"
+	"fmt"
 )
 
 /*
    @Time : 2018/9/11 16:41 
    @Author : ff
+   文章管理
 */
 
 type ArticleController struct {
@@ -20,6 +22,19 @@ type ArticleController struct {
 }
 
 func (this *ArticleController) List()  {
+	flash := beego.ReadFromRequest(&this.Controller)
+	if error := flash.Data["error"]; error != "" {
+		fmt.Println(error)
+		this.Data["error"] = error
+	}
+	if notice := flash.Data["notice"]; notice != "" {
+		fmt.Println(notice)
+		this.Data["notice"] = notice
+	}
+
+	//加载列表数据
+
+
 	this.TplName = "admin/article/list.tpl"
 }
 func (this *ArticleController) Add()  {
@@ -68,9 +83,11 @@ func (this *ArticleController) Save(){
 	if err != nil {
 		flash.Error( "添加文章错误")
 		flash.Store(&this.Controller)
+		this.redirect(beego.URLFor("ArticleController.Add"))
 		return
 	}
 	flash.Notice("添加成功")
+	flash.Store(&this.Controller)
 	this.redirect(beego.URLFor("ArticleController.List"))
 }
 

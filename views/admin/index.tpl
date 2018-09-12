@@ -15,5 +15,6 @@
 <script src="/static/theme/admin/js/jquery.metisMenu.js"></script>
 <script src="/static/theme/admin/js/custom-scripts.js"></script>
 <script src="/static/theme/admin/js/app.data.js"></script>
+<script src="/static/layui/layui.js?t=1504439386550" charset="utf-8"></script>
 </body>
 </html>

@@ -21,6 +21,12 @@ type BaseController struct {
 	noLayout	   bool
 }
 
+//api接口返回数据定义
+type Result struct {
+	Code int
+	Msg  string
+	Data interface{}
+}
 
 
 func (self *BaseController) Prepare() {
@@ -52,11 +58,16 @@ func (this *BaseController) isGet() bool {
 }
 
 
-func (this *BaseController) ajaxMsg(code int,msg interface{}) {
-	out := make(map[string]interface{})
-	out["code"] = code
-	out["msg"] = msg
-	this.Data["data"] = out
+func (this *BaseController) ajaxMsg(code int,msg string) {
+	result := &Result{Code:code, Msg: msg}
+	this.Data["json"] = result
+	this.ServeJSON()
+	this.StopRun()
+}
+
+func (this *BaseController) ajaxData(code int,msg string,data interface{}) {
+	result := &Result{code,msg,data}
+	this.Data["json"] = result
 	this.ServeJSON()
 	this.StopRun()
 }

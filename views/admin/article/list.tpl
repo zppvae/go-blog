@@ -80,8 +80,10 @@
         </div>
     </div>
 </div>
-
+<script src="/static/layui/layui.js?t=1504439386550" charset="utf-8"></script>
 <script type="text/javascript">
+
+
     var J = jQuery;
 
     function ajaxReload(json){
@@ -108,6 +110,14 @@
     }
 
     $(function() {
+        layui.use(['layer'], function(){
+            var layer = layui.layer; //弹层
+            var notice = "{{.notice}}";
+            if(notice){
+                layer.msg(notice,{time:2000});
+            }
+        })
+
         // 删除
         $('#dataGrid a[rel="delete"]').bind('click', function(){
             var that = $(this);
