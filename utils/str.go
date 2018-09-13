@@ -13,11 +13,15 @@ import (
    @Author : ff
 */
 const (
-	CODE_OK = 200
+	CODE_OK = 0
 	CODE_ERROR = 400
 	CODE_NOT_FOUND = 404
 
 	MSG_SUCCESS = "success"
+	MSG_ERROR = "删除失败"
+
+	YES = 1
+	NO = 0
 )
 
 var emailPattern = regexp.MustCompile("[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[a-zA-Z0-9](?:[\\w-]*[\\w])?")

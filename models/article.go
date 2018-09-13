@@ -15,7 +15,7 @@ const (
 )
 
 type Article struct {
-	Id         int32
+	Id         int
 	Title      string
 	UserId     int
 	ChannelId  int64                            //模块ID
@@ -34,6 +34,29 @@ type Article struct {
 
 func ArticleAdd(artcicle *Article) (int64,error)  {
 	return orm.NewOrm().Insert(artcicle)
+}
+
+func ArticleGetById(id int) (*Article, error) {
+	r := new(Article)
+	err := orm.NewOrm().QueryTable(ARTICLE_TABLE).Filter("id", id).One(r)
+	if err != nil {
+		return nil, err
+	}
+	return r, nil
+}
+
+func (a *Article) Delete(fields ...string) error  {
+	if _, err := orm.NewOrm().Delete(a, fields...); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (a *Article) Update(fields ...string) error {
+	if _, err := orm.NewOrm().Update(a, fields...); err != nil {
+		return err
+	}
+	return nil
 }
 
 func ArticleGetList(page,pageSize int,filters ...interface{}) ([]*Article,int64)  {

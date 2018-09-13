@@ -31,12 +31,37 @@ func (this *ArticleController) List()  {
 		fmt.Println(notice)
 		this.Data["notice"] = notice
 	}
-
-	//加载列表数据
-
-
 	this.TplName = "admin/article/list.tpl"
 }
+
+func (this *ArticleController) Table()  {
+	//加载列表数据
+	page, err := this.GetInt("page")
+	if err != nil {
+		page = 1
+	}
+	limit, err := this.GetInt("limit")
+	if err != nil {
+		limit = 30
+	}
+	this.pageSize = limit
+	result,count := models.ArticleGetList(page,this.pageSize)
+	list := make([]map[string]interface{}, len(result))
+
+	thumbnailstr := "/static/upload/"
+	for k, v := range result {
+		row := make(map[string]interface{})
+		row["id"] = v.Id
+		row["title"] = v.Title
+		row["userId"] = v.UserId
+		row["views"] = v.Views
+		row["thumbnail"] = thumbnailstr + v.Thumbnail
+		row["created"] = beego.Date(v.Created, "Y-m-d")
+		list[k] = row
+	}
+	this.ajaxLayuiTable(utils.CODE_OK, utils.MSG_SUCCESS, count, list)
+}
+
 func (this *ArticleController) Add()  {
 	this.TplName = "admin/article/add.tpl"
 }
@@ -90,6 +115,45 @@ func (this *ArticleController) Save(){
 	flash.Store(&this.Controller)
 	this.redirect(beego.URLFor("ArticleController.List"))
 }
+
+
+func (this *ArticleController) AjaxDel() {
+
+	id, _ := this.GetInt("id")
+	article, _ := models.ArticleGetById(id)
+
+	if article == nil {
+		this.ajaxMsg(utils.CODE_ERROR,utils.MSG_ERROR)
+	}
+	article.Id = id
+
+	if err := article.Delete(); err != nil {
+		this.ajaxMsg(utils.CODE_ERROR,utils.MSG_ERROR)
+	}
+	this.ajaxMsg(utils.CODE_OK,utils.MSG_SUCCESS)
+}
+
+/**
+  置顶/取消置顶
+ */
+func (this *ArticleController) AjaxWeight() {
+
+	id, _ := this.GetInt("id")
+	weight, _ := this.GetInt("weight")
+	article, _ := models.ArticleGetById(id)
+
+	if article == nil {
+		this.ajaxMsg(utils.CODE_ERROR,utils.MSG_ERROR)
+	}
+	article.Id = id
+	article.Weight = weight
+
+	if err := article.Update(); err != nil {
+		this.ajaxMsg(utils.CODE_ERROR,utils.MSG_ERROR)
+	}
+	this.ajaxMsg(utils.CODE_OK,utils.MSG_SUCCESS)
+}
+
 
 //上传图片
 func (this *ArticleController) Upload() {

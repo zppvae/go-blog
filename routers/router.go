@@ -16,4 +16,6 @@ func init() {
 	beego.Router("/article/upload", &controllers.ArticleController{},"*:Upload")
 	beego.Router("/article/save", &controllers.ArticleController{},"*:Save")
 	beego.Router("/article/update", &controllers.ArticleController{},"*:Post")
+
+	beego.AutoRouter(&controllers.ArticleController{})
 }

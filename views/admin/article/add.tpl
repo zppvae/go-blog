@@ -92,7 +92,7 @@
         </div>
     </div>
 </div>
-<script src="/static/layui/layui.js?t=1504439386550" charset="utf-8"></script>
+<script src="/static/layui2222/layui.js?t=1504439386550" charset="utf-8"></script>
 <script type="text/javascript">
 
 

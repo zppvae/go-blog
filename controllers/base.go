@@ -21,13 +21,6 @@ type BaseController struct {
 	noLayout	   bool
 }
 
-//api接口返回数据定义
-type Result struct {
-	Code int
-	Msg  string
-	Data interface{}
-}
-
 
 func (self *BaseController) Prepare() {
 	self.pageSize = 20
@@ -59,19 +52,34 @@ func (this *BaseController) isGet() bool {
 
 
 func (this *BaseController) ajaxMsg(code int,msg string) {
-	result := &Result{Code:code, Msg: msg}
-	this.Data["json"] = result
+	out := make(map[string]interface{})
+	out["code"] = code
+	out["msg"] = msg
+	this.Data["json"] = out
 	this.ServeJSON()
 	this.StopRun()
 }
 
 func (this *BaseController) ajaxData(code int,msg string,data interface{}) {
-	result := &Result{code,msg,data}
-	this.Data["json"] = result
+	out := make(map[string]interface{})
+	out["code"] = code
+	out["msg"] = msg
+	out["data"] = data
+	this.Data["json"] = out
 	this.ServeJSON()
 	this.StopRun()
 }
 
+func (this *BaseController) ajaxLayuiTable(code int,msg string,count int64,data interface{}) {
+	out := make(map[string]interface{})
+	out["code"] = code
+	out["msg"] = msg
+	out["count"] = count
+	out["data"] = data
+	this.Data["json"] = out
+	this.ServeJSON()
+	this.StopRun()
+}
 
 func (this *BaseController) UploadFile(filename string, filepath string) {
 	f, h, err := this.GetFile(filename)
