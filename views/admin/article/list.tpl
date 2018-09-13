@@ -16,74 +16,39 @@
                     </div>
                     <button type="submit" class="btn btn-default">查询</button>
                 </form>
-                <div class="table-responsive">
-                    <table id="dataGrid" class="table table-striped table-bordered">
-                        <thead>
-                        <tr>
-                            <th width="30"><input type="checkbox" class="checkall"></th>
-                            <th width="80">#</th>
-                            <th>文章标题</th>
-                            <th width="120">作者</th>
-                            <th width="100">发表日期</th>
-                            <th width="60">访问数</th>
-                            <th width="80">状态</th>
-                            <th width="140"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>
-                                <input type="checkbox" name="id" value="1">
-                            </td>
-                            <td>
-                                <img src="/store/thumbs/2018/0911/11151749cxpt.jpg" style="width: 80px;">
-                            </td>
-                            <td>
-                                <a href="/view/1" target="_blank">xmpp节点详解</a>
-                            </td>
-                            <td>admin</td>
-                            <td>2018-09-11</td>
-                            <td>3</td>
-                            <td>
-                            </td>
-                            <td class="text-center" align="left">
-                                <a href="javascript:void(0);" class="btn btn-xs btn-default" data-id="1" rel="featured"
-                                   data-toggle="tooltip" title="推荐">
-                                    <i class="fa fa-sun-o"></i>
-                                </a>
+                <table class="layui-table" lay-data="{width: 'full-10', height: 'full-105', url:'/article/list', page:true, id:'idTest'}" lay-filter="demo">
+                    <thead>
+                    <tr>
+                        <th lay-data="{field:'id', width:80, fixed: true}">ID</th>
+                        <th lay-data="{field:'title', width:200}">标题</th>
+                        <th lay-data="{field:'author', width:100}">作者</th>
+                        <th lay-data="{field:'created', width:100}">发表日期</th>
+                        <th lay-data="{field:'views', width:100}">访问数</th>
+                        <th lay-data="{fixed: 'right', width:150, align:'center', toolbar: '#barDemo'}">操作</th>
+                    </tr>
+                    </thead>
+                </table>
 
-                                <a href="javascript:void(0);" class="btn btn-xs btn-default" data-id="1" rel="weight"
-                                   data-toggle="tooltip" title="置顶">
-                                    <i class="fa fa-angle-double-up"></i>
-                                </a>
-
-                                <a href="/admin/post/view?id=1" class="btn btn-xs btn-info">
-                                    <i class="fa fa-edit"></i>
-                                </a>
-                                <a href="javascript:void(0);" class="btn btn-xs btn-primary" data-id="1" rel="delete">
-                                    <i class="fa fa-trash-o"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="panel-footer">
-
-                <ul class="pagination">
-
-                    <li class="active"><a href="javascript:void(0);"><span>1</span></a></li>
-
-                </ul>
+                <script type="text/html" id="barDemo">
+                    <a class="btn btn-xs btn-default" lay-event="featured" title="推荐">
+                        <i class="fa fa-sun-o"></i>
+                    </a>
+                    <a class="btn btn-xs btn-default" lay-event="weight" title="置顶">
+                        <i class="fa fa-angle-double-up"></i>
+                    </a>
+                    <a class="btn btn-xs btn-info" lay-event="edit">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <a class="btn btn-xs btn-primary" lay-event="delete">
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+                </script>
             </div>
         </div>
     </div>
 </div>
-<script src="/static/layui/layui.js?t=1504439386550" charset="utf-8"></script>
+
 <script type="text/javascript">
-
-
     var J = jQuery;
 
     function ajaxReload(json){
@@ -110,14 +75,6 @@
     }
 
     $(function() {
-        layui.use(['layer'], function(){
-            var layer = layui.layer; //弹层
-            var notice = "{{.notice}}";
-            if(notice){
-                layer.msg(notice,{time:2000});
-            }
-        })
-
         // 删除
         $('#dataGrid a[rel="delete"]').bind('click', function(){
             var that = $(this);
