@@ -27,7 +27,7 @@ func (self *BaseController) Prepare() {
 	controllerName, actionName := self.GetControllerAndAction()
 	self.controllerName = strings.ToLower(controllerName[0 : len(controllerName)-10])
 	self.actionName = strings.ToLower(actionName)
-	self.Layout = "admin/index.tpl"
+
 	self.Data["version"] = beego.AppConfig.String("version")
 	self.Data["siteName"] = beego.AppConfig.String("site.name")
 	self.Data["curController"] = self.controllerName
@@ -35,6 +35,10 @@ func (self *BaseController) Prepare() {
 
 	self.Data["loginUserId"] = self.userId
 	self.Data["loginUsername"] = self.Ctx.GetCookie("uname")
+
+	if self.noLayout {
+		self.Layout = "admin/index.tpl"
+	}
 }
 
 func (this *BaseController) redirect(url string) {

@@ -8,35 +8,23 @@
                 <div class="layui-btn-group demoTable">
                     <a href="/article/add" class="layui-btn" style="text-decoration: none">新增</a>
                 </div>
-                <table class="layui-table" lay-data="{width: 826, height:500, url:'/article/table', page:true, id:'idTest'}" lay-filter="demo">
+                <table class="layui-table" lay-data="{width: 1006, height:500, url:'/article/table', page:true, id:'idTest'}" lay-filter="demo">
                     <thead>
                         <tr>
                             <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
                             <th lay-data="{field:'id', width:80,fixed: true}">ID</th>
-                            <th lay-data="{field:'title', width:180}">标题</th>
+                            <th lay-data="{field:'thumbnailHtml', width:100}">预览图</th>
+                            <th lay-data="{field:'title', width:240}">标题</th>
                             <th lay-data="{field:'userId', width:100}">作者</th>
                             <th lay-data="{field:'created', width:120}">发表日期</th>
                             <th lay-data="{field:'views', width:100}">访问数</th>
+                            <th lay-data="{field:'statusHtml', width:90}">状态</th>
 
-                            <th lay-data="{fixed: 'right', width:200, align:'center', toolbar: '#barDemo'}">操作</th>
+                            <th lay-data="{field:'handleHtml', width:130}">操作</th>
                         </tr>
                     </thead>
                 </table>
 
-                <script type="text/html" id="barDemo">
-                    <a class="btn btn-xs btn-default" lay-event="featured" title="推荐">
-                        <i class="fa fa-sun-o"></i>
-                    </a>
-                    <a class="btn btn-xs btn-default" lay-event="weight" title="置顶">
-                        <i class="fa fa-angle-double-up"></i>
-                    </a>
-                    <a class="btn btn-xs btn-info" lay-event="edit">
-                        <i class="fa fa-edit"></i>
-                    </a>
-                    <a class="btn btn-xs btn-primary" lay-event="del">
-                        <i class="fa fa-trash-o"></i>
-                    </a>
-                </script>
             </div>
         </div>
     </div>
@@ -54,7 +42,7 @@
             //推荐
             if(obj.event === 'featured'){
                 layer.confirm('确定推荐【'+data.title+'】?', function(index){
-                    var jsData = {'id':data.id}
+                    var jsData = {'id':data.id,'featured':1}
                     $.post('{{urlfor "ArticleController.AjaxFeatured"}}', jsData, function (out) {
                         if (out.code == 0) {
                             layer.msg("推荐成功", {icon: 1,time:2000},function(index){
@@ -68,13 +56,47 @@
                     layer.close(index);
                 });
             }
+            //取消推荐
+            if(obj.event === 'unfeatured'){
+                layer.confirm('确定取消推荐【'+data.title+'】?', function(index){
+                    var jsData = {'id':data.id,'featured':0}
+                    $.post('{{urlfor "ArticleController.AjaxFeatured"}}', jsData, function (out) {
+                        if (out.code == 0) {
+                            layer.msg("取消推荐成功", {icon: 1,time:2000},function(index){
+                                layer.close(index);
+                                window.location.reload();
+                            });
+                        } else {
+                            layer.msg(out.msg)
+                        }
+                    }, "json");
+                    layer.close(index);
+                });
+            }
             //置顶
             if(obj.event === 'weight'){
                 layer.confirm('确定置顶【'+data.title+'】?', function(index){
-                    var jsData = {'id':data.id}
+                    var jsData = {'id':data.id,'weight':1}
                     $.post('{{urlfor "ArticleController.AjaxWeight"}}', jsData, function (out) {
                         if (out.code == 0) {
                             layer.msg("置顶成功", {icon: 1,time:2000},function(index){
+                                layer.close(index);
+                                window.location.reload();
+                            });
+                        } else {
+                            layer.msg(out.msg)
+                        }
+                    }, "json");
+                    layer.close(index);
+                });
+            }
+            //取消置顶
+            if(obj.event === 'unweight'){
+                layer.confirm('确定取消置顶【'+data.title+'】?', function(index){
+                    var jsData = {'id':data.id,'weight':0}
+                    $.post('{{urlfor "ArticleController.AjaxWeight"}}', jsData, function (out) {
+                        if (out.code == 0) {
+                            layer.msg("取消置顶成功", {icon: 1,time:2000},function(index){
                                 layer.close(index);
                                 window.location.reload();
                             });

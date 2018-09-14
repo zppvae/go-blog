@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/static/css/login.css?t=1504439386550" media="all">
     <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
 
+    <script src="/static/layui/layui.js"></script>
     <script src="/static/dist/js/jquery.min.js"></script>
     <script src="/static/dist/vendors/bootstrap/js/bootstrap.min.js"></script>
     <script src='/static/dist/vendors/validate/jquery-validate.js'></script>
