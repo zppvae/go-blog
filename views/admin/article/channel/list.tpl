@@ -90,13 +90,13 @@
                         <a href="/user" nav="user">我的主页</a>
                     </li>
                     <li>
-                        <a href="/channel/2" nav="博客">博客</a>
+                        <a href="/article/channels?channelId=2&page=1" nav="博客">博客</a>
                     </li>
                     <li>
-                        <a href="/channel/3" nav="问答">问答</a>
+                        <a href="/article/channels?channelId=3&page=1" nav="问答">问答</a>
                     </li>
                     <li>
-                        <a href="/channel/4" nav="分享">分享</a>
+                        <a href="/article/channels?channelId=4&page=1" nav="分享">分享</a>
                     </li>
                 </ul>
                 <ul class="navbar-button list-inline" id="header_user">
@@ -125,7 +125,53 @@
     });
 </script>
 <!-- Header END --><!-- /header -->
-
+<style>
+    .excerpt-1 {
+        border-radius: 4px 4px 0 0;
+    }
+    .excerpt h2 {
+        display: inline;
+        font-size: 18px;
+        line-height: 1.4;
+        margin-top: 0;
+        font-weight: bold;
+    }
+    .excerpt h2 a {
+        color: #555;
+    }
+    .excerpt {
+        border: 1px solid #eaeaea;
+        padding: 20px 20px 20px 255px;
+        overflow: hidden;
+        background-color: #fff;
+        margin-bottom: -1px;
+    }
+    .excerpt .focus {
+        float: left;
+        margin-left: -235px;
+        width: 220px;
+    }
+    .excerpt header {
+        margin-bottom: 10px;
+    }
+    .excerpt .meta {
+        color: #999;
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+    .meta {
+        font-size: 13px;
+        color: #999;
+        line-height: 1;
+    }
+    .excerpt .note {
+        font-size: 12px;
+        color: #999;
+        word-wrap: break-word;
+        line-height: 25px;
+        margin-bottom: 0;
+    }
+</style>
 <!-- content -->
 <div class="wrap">
     <!-- Main -->
@@ -144,33 +190,76 @@
         </ol>
 
         <div class="row main">
-            {{range $index,$elem := .articles}}
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                    <div class="block">
-                        <a class="block-thumbnail" href="/view/1">
-                            <div class="thumbnail-overlay"></div>
-                            <span class="button-zoom">
-                                <img src="/static/dist/images/image-overlay-view-icon.png">
+            {{/*{{range $index,$elem := .articles}}*/}}
+                {{/*<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">*/}}
+                    {{/*<div class="block">*/}}
+                        {{/*<a class="block-thumbnail" href="/view/1">*/}}
+                            {{/*<div class="thumbnail-overlay"></div>*/}}
+                            {{/*<span class="button-zoom">*/}}
+                                {{/*<img src="/static/dist/images/image-overlay-view-icon.png">*/}}
+                            {{/*</span>*/}}
+                            {{/*<img src="{{$elem.thumbnail}}">*/}}
+                        {{/*</a>*/}}
+                        {{/*<div class="block-contents">*/}}
+                            {{/*<p class="tit">{{$elem.title}}</p>*/}}
+                        {{/*</div>*/}}
+                    {{/*</div>*/}}
+                {{/*</div>*/}}
+            {{/*{{end}}*/}}
+
+            <div class="col-xs-12 col-md-9 side-left topics-show">
+                <article class="excerpt excerpt-1">
+                    <a target="_blank" class="focus" href="/view/1403">
+                        <img data-src="/store/thumbs/2018/0915/15184232brcl.jpg"
+                             alt="java多用户商城系统支持springcloud"
+                             src="/static/upload/timg.jpg" class="thumb1"
+                             style="display: inline;width: 220px">
+                    </a>
+                    <header>
+                        <h2>
+                            <a target="_blank" href="/view/1403" title="java多用户商城系统支持springcloud">java多用户商城系统支持springcloud</a>
+                        </h2>
+                    </header>
+                    <p class="meta">
+                        <time>
+                            <i class="fa fa-clock-o"></i>2018-09-15 18:42
+                        </time>
+                        <span class="pv">
+                                <i class="fa fa-eye"></i>阅读(3)
                             </span>
-                            <img src="{{$elem.thumbnail}}">
-                        </a>
-                        <div class="block-contents">
-                            <p class="tit">{{$elem.title}}</p>
-                        </div>
-                    </div>
-                </div>
-            {{end}}
-        </div>
-        <div class="row" style="width:100%; text-align:center;">
-            <!-- Pager -->
-            <ul class="pagination">
-                <li class="disabled"><span>上一页</span></li>
+                    </p>
+                    <p class="note">
+                        由于Java是开源的，最近几年Hadoop等开源产品越来越成熟，而且是基于Java的，所以最终选择Java最后后台开发语言，现在前端是自己的前端工程师写的JS，后期准备改成前端是PHP，中间是Go语言，后台服务器是JAVA，因为PHP写前端很厉害...
+                    </p>
+                </article>
+                <article class="excerpt excerpt-1">
+                    <a target="_blank" class="focus" href="/view/1403">
+                        <img data-src="/store/thumbs/2018/0915/15184232brcl.jpg"
+                             alt="java多用户商城系统支持springcloud"
+                             src="/static/upload/timg.jpg" class="thumb1"
+                             style="display: inline;width: 220px">
+                    </a>
+                    <header>
+                        <h2>
+                            <a target="_blank" href="/view/1403" title="java多用户商城系统支持springcloud">java多用户商城系统支持springcloud</a>
+                        </h2>
+                    </header>
+                    <p class="meta">
+                        <time>
+                            <i class="fa fa-clock-o"></i>2018-09-15 18:42
+                        </time>
+                        <span class="pv">
+                            <i class="fa fa-eye"></i>阅读(3)
+                        </span>
+                    </p>
+                    <p class="note">
+                        由于Java是开源的，最近几年Hadoop等开源产品越来越成熟，而且是基于Java的，所以最终选择Java最后后台开发语言，现在前端是自己的前端工程师写的JS，后期准备改成前端是PHP，中间是Go语言，后台服务器是JAVA，因为PHP写前端很厉害...
+                    </p>
+                </article>
+                {{template "inc/paging.tpl" .}}
 
-                <li class="active"><span>1</span></li>
+            </div>
 
-                <li class="disabled"><span>下一页</span></li>
-            </ul>
-        </div>
 
 
     </div>

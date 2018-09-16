@@ -5,7 +5,7 @@
 
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>{{.siteName}}</title>
-    <link rel="stylesheet" href="/static/layui2222/css/layui.css?t=1504439386550" media="all">
+    <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/static/css/login.css?t=1504439386550" media="all">
 </head>
 <body>
@@ -24,7 +24,7 @@
         </form>
     </div>
 </div>
-<script src="/static/layui2222/layui.js?t=1504439386550" charset="utf-8"></script>
+<script src="/static/layui/layui.js?t=1504439386550" charset="utf-8"></script>
 <!-- <script src="https://cdn.bootcss.com/jquery/1.8.3/jquery.js"></script>-->
 <script type="text/javascript">
     layui.use(['layer'], function(){

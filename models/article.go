@@ -32,6 +32,25 @@ type Article struct {
 	Thumbnail  string     `orm:"size(200)"`   //预览图
 }
 
+type ArticleDTO struct {
+	Id         int
+	Title      string
+	UserId     int
+	Username     string
+	ChannelId  int64                            //模块ID
+	Comments   int                            //评论数
+	Created    time.Time
+	Favors     int                            //喜欢数
+	Featured   int                            //推荐状态
+	Views      int                            //阅读数
+	Weight     int                            //置顶状态
+	Status     int
+	Content    string
+	Summary    string     						//摘要
+	Tags       string
+	Thumbnail  string        					//预览图
+}
+
 func ArticleAdd(artcicle *Article) (int64,error)  {
 	return orm.NewOrm().Insert(artcicle)
 }
@@ -59,19 +78,22 @@ func (a *Article) Update(fields ...string) error {
 	return nil
 }
 
-func ArticleGetList(page,pageSize int,filters ...interface{}) ([]*Article,int64)  {
+func ArticleGetList(page,pageSize int64,filters ...interface{}) ([]*ArticleDTO,int64)  {
 	offset := (page - 1) * pageSize
-	list := make([]*Article, 0)
-	query := orm.NewOrm().QueryTable(ARTICLE_TABLE)
-	if len(filters) > 0 {
-		l := len(filters)
+	list := make([]*ArticleDTO, 0)
+	o := orm.NewOrm()
+	total,_ := o.Raw("select a.*,u.username from t_article a LEFT JOIN t_user u on a.user_id=u.id LIMIT ?,?",
+		offset,pageSize).QueryRows(&list)
 
-		for k := 0; k < l; k += 2 {
-			query = query.Filter(filters[k].(string), filters[k+1])
-		}
-	}
-	total, _ := query.Count()
-	query.OrderBy("-created", "-id").Limit(pageSize, offset).All(&list)
+	return list, total
+}
+
+func ArticleGetListByChannelId(channelId int,page,pageSize int64,filters ...interface{}) ([]*ArticleDTO,int64)  {
+	offset := (page - 1) * pageSize
+	list := make([]*ArticleDTO, 0)
+	o := orm.NewOrm()
+	total,_ := o.Raw("select a.*,u.username from t_article a LEFT JOIN t_user u on a.user_id=u.id " +
+		" where a.channel_id=? LIMIT ?,?", channelId,offset,pageSize).QueryRows(&list)
 
 	return list, total
 }

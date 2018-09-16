@@ -33,7 +33,8 @@
 </footer>
 
 <a href="#" class="site-scroll-top"></a>
-
+<script type="text/javascript" src="/static/theme/default/js/sea.js"></script>
+<script type="text/javascript" src="/static/theme/default/js/sea.config.js"></script>
 <script type="text/javascript">
     seajs.use('main', function (main) {
          main.init();

@@ -15,7 +15,7 @@
                             <th lay-data="{field:'id', width:80,fixed: true}">ID</th>
                             <th lay-data="{field:'thumbnailHtml', width:100}">预览图</th>
                             <th lay-data="{field:'title', width:240}">标题</th>
-                            <th lay-data="{field:'userId', width:100}">作者</th>
+                            <th lay-data="{field:'username', width:100}">作者</th>
                             <th lay-data="{field:'created', width:120}">发表日期</th>
                             <th lay-data="{field:'views', width:100}">访问数</th>
                             <th lay-data="{field:'statusHtml', width:90}">状态</th>

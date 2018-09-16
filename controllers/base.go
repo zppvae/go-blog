@@ -16,7 +16,7 @@ type BaseController struct {
 	actionName     string
 	userId         int
 	username       string
-	pageSize       int
+	pageSize       int64
 	allowUrl       string
 	noLayout	   bool
 }
@@ -39,6 +39,11 @@ func (self *BaseController) Prepare() {
 	if self.noLayout {
 		self.Layout = "admin/index.tpl"
 	}
+}
+
+func (this *BaseController) useLayout(tpl string) {
+	this.Layout = "admin/index.tpl"
+	this.TplName = tpl
 }
 
 func (this *BaseController) redirect(url string) {

@@ -14,7 +14,7 @@
     $(function() {
         apiEditor = editormd("article-editormd", {
             width  : "90%",
-            height : 400,
+            height : 200,
             path   : '/static/editor.md/lib/',
             onchange : function() {
                 $("#output").html("onchange : this.id =>" + this.id + ", markdown =>" + this.getValue());

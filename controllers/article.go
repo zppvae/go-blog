@@ -61,31 +61,57 @@ func (this *ArticleController) List()  {
 		fmt.Println(notice)
 		this.Data["notice"] = notice
 	}
-	this.TplName = "admin/article/list.tpl"
+
+	this.useLayout("admin/article/list.tpl")
+
 }
 
 //通过channel查询文章
 func (this *ArticleController) ListByChannel()  {
-	this.noLayout = true
+
+	page, _ := this.GetInt64("page")
+	pageSize, _ := this.GetInt64("pageSize")
+	if page < 1 {
+		page = 1
+	}
+	if pageSize > 1 {
+		this.pageSize = pageSize
+	}
+
 	channelIdStr := this.Input().Get("channelId")
 	channelId,_ := strconv.Atoi(channelIdStr)
 
 	if channelId <=0 {
 		logs.Error("channelId is error!")
 	}
-	list := make([]map[string]interface{},1)
+	result,count := models.ArticleGetListByChannelId(channelId,page,this.pageSize)
+	list := make([]map[string]interface{}, count)
+
+	for k, v := range result {
+		row := make(map[string]interface{})
+		row["id"] = v.Id
+		row["title"] = v.Title
+		row["userId"] = v.UserId
+		row["username"] = v.Username
+		row["views"] = v.Views
+		row["thumbnailHtml"] = strings.Replace(THUMBNAIL_IMG,"{}",THUMBNAIL_PERFIX + v.Thumbnail,-1)
+		row["created"] = beego.Date(v.Created, "Y-m-d")
+		list[k] = row
+	}
+	this.Data["paging"] = utils.CreatePaging(page, pageSize, count)
 	this.Data["articles"] = list
+
 	this.TplName = "admin/article/channel/list.tpl"
 }
 
 
 func (this *ArticleController) Table()  {
 	//加载列表数据
-	page, err := this.GetInt("page")
+	page, err := this.GetInt64("page")
 	if err != nil {
 		page = 1
 	}
-	limit, err := this.GetInt("limit")
+	limit, err := this.GetInt64("limit")
 	if err != nil {
 		limit = 30
 	}
@@ -93,14 +119,13 @@ func (this *ArticleController) Table()  {
 	result,count := models.ArticleGetList(page,this.pageSize)
 	list := make([]map[string]interface{}, len(result))
 
-
-
 	for k, v := range result {
 		row := make(map[string]interface{})
 		var handleHtml = ""
 		row["id"] = v.Id
 		row["title"] = v.Title
 		row["userId"] = v.UserId
+		row["username"] = v.Username
 		row["views"] = v.Views
 		row["statusHtml"] = WEIGHT_STATUS[v.Weight] + FEATURED_STATUS[v.Featured]
 
@@ -125,7 +150,7 @@ func (this *ArticleController) Table()  {
 }
 
 func (this *ArticleController) Add()  {
-	this.TplName = "admin/article/add.tpl"
+	this.useLayout("admin/article/add.tpl")
 }
 
 func (this *ArticleController) Edit()  {
@@ -140,7 +165,7 @@ func (this *ArticleController) Edit()  {
 	row["channelId"] = article.ChannelId
 	row["tags"] = article.Tags
 	this.Data["article"] = row
-	this.TplName = "admin/article/edit.tpl"
+	this.useLayout("admin/article/edit.tpl")
 }
 
 
