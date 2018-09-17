@@ -5,6 +5,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	"go-blog/models"
+	"go-blog/controllers"
 )
 
 
@@ -19,6 +20,7 @@ func main() {
 	// create table
 	orm.RunSyncdb("default", false, true)
 
+	beego.ErrorController(&controllers.ErrorController{})
 	beego.Run()
 }
 

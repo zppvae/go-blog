@@ -16,5 +16,5 @@ func (this *HomeController) Index()  {
 		this.redirect(beego.URLFor("LoginController.Login"))
 	}
 	this.Data["title"] = "首页"
-	this.TplName = "admin/main.tpl"
+	this.useLayout("admin/main.tpl")
 }

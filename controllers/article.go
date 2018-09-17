@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"strings"
 	"github.com/astaxie/beego/logs"
+	"html/template"
 )
 
 /*
@@ -71,20 +72,26 @@ func (this *ArticleController) ListByChannel()  {
 
 	page, _ := this.GetInt64("page")
 	pageSize, _ := this.GetInt64("pageSize")
+
+	//排序 created  views
+	order := this.GetString("order")
+	if order == "" {
+		order = "created"
+	}
+
 	if page < 1 {
 		page = 1
 	}
 	if pageSize > 1 {
 		this.pageSize = pageSize
 	}
-
-	channelIdStr := this.Input().Get("channelId")
+	channelIdStr := this.Ctx.Input.Param(":channelId")
 	channelId,_ := strconv.Atoi(channelIdStr)
 
 	if channelId <=0 {
 		logs.Error("channelId is error!")
 	}
-	result,count := models.ArticleGetListByChannelId(channelId,page,this.pageSize)
+	result,count := models.ArticleGetListByChannelId(channelId,page,this.pageSize,order)
 	list := make([]map[string]interface{}, count)
 
 	for k, v := range result {
@@ -94,14 +101,21 @@ func (this *ArticleController) ListByChannel()  {
 		row["userId"] = v.UserId
 		row["username"] = v.Username
 		row["views"] = v.Views
-		row["thumbnailHtml"] = strings.Replace(THUMBNAIL_IMG,"{}",THUMBNAIL_PERFIX + v.Thumbnail,-1)
+
+		length := len(v.Content)
+		if len(v.Content) > 200 {
+			length = 200
+		}
+		row["content"] = string([]rune(v.Content)[:length]) + "..."
+		row["thumbnailHtml"] = THUMBNAIL_PERFIX + v.Thumbnail
 		row["created"] = beego.Date(v.Created, "Y-m-d")
 		list[k] = row
 	}
 	this.Data["paging"] = utils.CreatePaging(page, pageSize, count)
 	this.Data["articles"] = list
+	this.Data["order"] = order
 
-	this.TplName = "admin/article/channel/list.tpl"
+	this.TplName = "channel/list.tpl"
 }
 
 
@@ -150,6 +164,7 @@ func (this *ArticleController) Table()  {
 }
 
 func (this *ArticleController) Add()  {
+	this.Data["xsrfdata"]=template.HTML(this.XSRFFormHTML())
 	this.useLayout("admin/article/add.tpl")
 }
 
@@ -168,6 +183,51 @@ func (this *ArticleController) Edit()  {
 	this.useLayout("admin/article/edit.tpl")
 }
 
+func (this *ArticleController) View()  {
+	id,_ := this.GetInt64("id")
+	article,_ := models.ArticleGet(id)
+
+	row := make(map[string]interface{})
+	row["id"] = article.Id
+	row["title"] = article.Title
+	row["userId"] = article.UserId
+	row["username"] = article.Username
+	row["views"] = article.Views
+	row["content"] = article.Content
+	row["thumbnailHtml"] = THUMBNAIL_PERFIX + article.Thumbnail
+	row["created"] = beego.Date(article.Created, "Y-m-d")
+
+	this.Data["article"] = row
+	this.TplName = "channel/view.tpl"
+}
+
+func (this *ArticleController) Latests()  {
+	size,_ := this.GetInt64("size")
+	result,count := models.ArticleGetListByCreated(1,size)
+	list := make([]map[string]interface{}, count)
+
+	for k, v := range result {
+		row := make(map[string]interface{})
+		row["id"] = v.Id
+		row["title"] = v.Title
+		list[k] = row
+	}
+	this.ajax(list)
+}
+
+func (this *ArticleController) Hots()  {
+	size,_ := this.GetInt64("size")
+	result,count := models.ArticleGetListByHot(1,size)
+	list := make([]map[string]interface{}, count)
+
+	for k, v := range result {
+		row := make(map[string]interface{})
+		row["id"] = v.Id
+		row["title"] = v.Title
+		list[k] = row
+	}
+	this.ajax(list)
+}
 
 func (this *ArticleController) Save(){
 	if !CheckAccount(this.Ctx) {

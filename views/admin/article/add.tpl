@@ -9,6 +9,7 @@
             <div class="layui-layout layui-layout-admin" style="padding-left: 40px;margin-top: 20px;">
 
                 <form class="layui-form" method="post" action="/article/save" enctype="multipart/form-data">
+                    {{ .xsrfdata}}
                     <div class="layui-form-item">
                         <label class="layui-form-label">标题</label>
                         <div class="layui-input-block " style="width: 400px">

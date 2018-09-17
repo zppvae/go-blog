@@ -47,6 +47,7 @@ func (this *BaseController) useLayout(tpl string) {
 }
 
 func (this *BaseController) redirect(url string) {
+	this.Layout = "admin/index.tpl"
 	this.Redirect(url, 302)
 	this.StopRun()
 }
@@ -75,6 +76,12 @@ func (this *BaseController) ajaxData(code int,msg string,data interface{}) {
 	out["msg"] = msg
 	out["data"] = data
 	this.Data["json"] = out
+	this.ServeJSON()
+	this.StopRun()
+}
+
+func (this *BaseController) ajax(data interface{}) {
+	this.Data["json"] = data
 	this.ServeJSON()
 	this.StopRun()
 }

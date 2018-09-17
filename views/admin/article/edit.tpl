@@ -36,8 +36,11 @@
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">内容</label>
-                        <div class="layui-input-block" id="article-editormd">
-                            <textarea name="content" style="display:none;">{{.article.content}}</textarea>
+                        <div class="layui-input-block">
+                            <textarea id="view_content" name="content" rows="5" data-required data-describedby="message" data-description="content">
+                            {{.article.content}}
+                            </textarea>
+                            {{template "inc/ueditor.tpl"}}
                         </div>
                     </div>
                     <div class="layui-form-item">

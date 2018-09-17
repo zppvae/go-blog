@@ -5,9 +5,9 @@
         </div>
         <div class="footer-col footer-col-copy">
             <ul class="footer-nav hidden-xs">
-                <li class="menu-item"><a href="/static/about">关于我们</a></li>
-                <li class="menu-item"><a href="/static/joinus">联系我们</a></li>
-                <li class="menu-item"><a href="/static/faqs">常见问题</a></li>
+                <li class="menu-item"><a href="javascript:;">关于我们</a></li>
+                <li class="menu-item"><a href="javascript:;">联系我们</a></li>
+                <li class="menu-item"><a href="javascript:;">常见问题</a></li>
                 <li>
                     <script>
                         var _hmt = _hmt || [];
