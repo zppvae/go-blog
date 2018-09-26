@@ -5,6 +5,7 @@ import (
 	"github.com/astaxie/beego"
 	"go-blog/models"
 	"fmt"
+	"html/template"
 )
 
 /*
@@ -47,7 +48,7 @@ func (this *LoginController) Login() {
 			this.redirect(beego.URLFor("HomeController.Index"))
 		}
 	}
-
+	this.Data["xsrfdata"] = template.HTML(this.XSRFFormHTML())
 	this.TplName = "login.tpl"
 }
 

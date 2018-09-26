@@ -11,6 +11,7 @@ import (
 
 func init() {
 	models.RegisterDB()
+	models.Filters()
 }
 
 func main() {

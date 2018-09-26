@@ -31,9 +31,12 @@ func RegisterDB() {
 
 func Filters()  {
 	var FilterUser = func(ctx *context.Context) {
-		ok,_ := ctx.Request.Cookie("userId")
-		if ok != nil && ctx.Request.RequestURI != "/login" {
-			ctx.Redirect(302, "/login")
+		cookie,err := ctx.Request.Cookie("userId")
+		if err != nil {
+			ctx.Redirect(302, beego.URLFor("LoginController.Login"))
+		}
+		if cookie.Value == "" && ctx.Request.RequestURI != "/login" {
+			ctx.Redirect(302, beego.URLFor("LoginController.Login"))
 		}
 	}
 

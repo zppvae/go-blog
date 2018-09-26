@@ -14,6 +14,7 @@
     <div class="login layui-anim layui-anim-up">
         <h1>blog管理后台</h1></p>
         <form class="layui-form" action="/login" method="post">
+            {{ .xsrfdata }}
             <div class="layui-form-item">
                 <input type="text" name="username" lay-verify="required" placeholder="请输入账号" autocomplete="off"  value="{{.username}}" class="layui-input">
             </div>
