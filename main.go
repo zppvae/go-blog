@@ -6,6 +6,9 @@ import (
 	"github.com/astaxie/beego/orm"
 	"go-blog/models"
 	"go-blog/controllers"
+	"github.com/patrickmn/go-cache"
+	"time"
+	"go-blog/utils"
 )
 
 
@@ -22,6 +25,8 @@ func main() {
 	orm.RunSyncdb("default", false, true)
 
 	beego.ErrorController(&controllers.ErrorController{})
+
+	utils.Che = cache.New(60*time.Minute, 120*time.Minute)
 	beego.Run()
 }
 

@@ -4,8 +4,11 @@ import (
 	"github.com/astaxie/beego/context"
 	"github.com/astaxie/beego"
 	"go-blog/models"
-	"fmt"
 	"html/template"
+	"go-blog/utils"
+	"strconv"
+	cache "github.com/patrickmn/go-cache"
+	"strings"
 )
 
 /*
@@ -26,25 +29,20 @@ func (this *LoginController) Login() {
 		// 获取表单信息
 		username := this.Input().Get("username")
 		password := this.Input().Get("password")
-		autoLogin := this.Input().Get("autoLogin") == "on"
 
-		user,err := models.GetUser(username,password)
+		user,err := models.GetUser(username)
 
 		flash := beego.NewFlash()
 		errorMsg := ""
-		if err != nil || user.Password != password {
+		if err != nil || user.Password != utils.MD5([] byte(password + user.Salt)) {
 			errorMsg = "帐号或密码错误"
 			flash.Error(errorMsg)
 			flash.Store(&this.Controller)
-			this.redirect("article/add")
+			this.redirect(beego.URLFor("HomeController.Login"))
 		} else {
-			maxAge := 0
-			if autoLogin {
-				maxAge = 1<<5 - 1
-			}
-
-			this.Ctx.SetCookie("uname", username, maxAge)
-			this.Ctx.SetCookie("userId", fmt.Sprint(user.Id), maxAge)
+			utils.Che.Set("uid"+strconv.Itoa(user.Id), user, cache.DefaultExpiration)
+			authkey := utils.MD5([]byte(this.getClientIp() + "|" + user.Password + user.Salt))
+			this.Ctx.SetCookie("auth", strconv.Itoa(user.Id)+"|"+authkey, 3600)
 			this.redirect(beego.URLFor("HomeController.Index"))
 		}
 	}
@@ -53,19 +51,20 @@ func (this *LoginController) Login() {
 }
 
 func (this *LoginController) Logout() {
-	this.Ctx.SetCookie("uname","")
-	this.Ctx.SetCookie("userId","")
+	this.Ctx.SetCookie("auth", "")
 	this.redirect(beego.URLFor("LoginController.Login"))
 }
 
 func CheckAccount(ctx *context.Context) bool {
-	uname, err := ctx.Request.Cookie("uname")
-	if err != nil {
-		return false
-	}
+	arr := strings.Split(ctx.GetCookie("auth"), "|")
 
-	if uname.Value == "" {
-		return false
+	if len(arr) == 2 {
+		idstr, _ := arr[0], arr[1]
+		userId, _ := strconv.Atoi(idstr)
+
+		if userId > 0{
+			return true
+		}
 	}
-	return true
+	return false
 }

@@ -4,6 +4,8 @@ import (
 	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
+	"strings"
+	"strconv"
 )
 
 /*
@@ -31,11 +33,16 @@ func RegisterDB() {
 
 func Filters()  {
 	var FilterUser = func(ctx *context.Context) {
-		cookie,err := ctx.Request.Cookie("userId")
-		if err != nil {
-			ctx.Redirect(302, beego.URLFor("LoginController.Login"))
-		}
-		if cookie.Value == "" && ctx.Request.RequestURI != "/login" {
+		arr := strings.Split(ctx.GetCookie("auth"), "|")
+
+		if len(arr) == 2 {
+			idstr, _ := arr[0], arr[1]
+			userId, _ := strconv.Atoi(idstr)
+
+			if userId <= 0{
+				ctx.Redirect(302, beego.URLFor("LoginController.Login"))
+			}
+		} else {
 			ctx.Redirect(302, beego.URLFor("LoginController.Login"))
 		}
 	}

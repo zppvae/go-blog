@@ -123,3 +123,12 @@ func (this *BaseController) UploadFile(filename string, filepath string) {
 	this.ServeJSON()
 	this.StopRun()
 }
+
+/**
+	获取用户IP地址
+ */
+func (this *BaseController) getClientIp() string {
+	s := this.Ctx.Request.RemoteAddr
+	l := strings.LastIndex(s, ":")
+	return s[0:l]
+}

@@ -2,7 +2,6 @@ package models
 
 import (
 	"github.com/astaxie/beego/orm"
-	"github.com/astaxie/beego"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -23,7 +22,7 @@ type User struct {
 	Salt     string `orm:"size(50)"`
 }
 
-func GetUser(username,password string) (*User, error) {
+func GetUser(username string) (*User, error) {
 	o := orm.NewOrm()
 
 	user := new(User)
@@ -32,10 +31,6 @@ func GetUser(username,password string) (*User, error) {
 	err := qs.Filter("username", username).One(user)
 	if err != nil {
 		return nil, err
-	}
-
-	if user.Password != password {
-		beego.Error("用户密码错误")
 	}
 	return user, nil
 }
