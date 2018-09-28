@@ -49,7 +49,7 @@ func GetRandomString(lens int) string {
 	return string(result)
 }
 
-func SetPassword(len int, password string) (pwd string, salt string) {
+func SetPassword(password string) (pwd string, salt string) {
 	salt = GetRandomString(4)
 	pwd = MD5([]byte(password + salt))
 	return pwd, salt
