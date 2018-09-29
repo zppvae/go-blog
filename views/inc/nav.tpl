@@ -31,7 +31,6 @@
             <li>
                 <a href="/index" nav="/index"><i class="fa fa-dashboard"></i> 首页</a>
             </li>
-            <li><a href="/admin/channel/list" nav="/admin/channel/list"><i class="fa fa-tags icon-xlarge"></i>栏目管理</a></li>
             <li><a href="/admin/article/list" nav="/admin/article/list"><i class="fa fa-clone icon-xlarge"></i>文章管理</a></li>
             <li><a href="/admin/comment/list" nav="/admin/comment/list"><i class="fa fa-comments-o icon-xlarge"></i>评论管理</a></li>
             <li><a href="/admin/user/list" nav="/admin/user/list"><i class="fa fa-user icon-xlarge"></i>用户管理</a></li>
