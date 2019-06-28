@@ -1,14 +1,14 @@
 package main
 
 import (
-	_ "github.com/go-blog/routers"
+	_ "github.com/zppvae/go-blog/routers"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
-	"github.com/go-blog/models"
-	"github.com/go-blog/controllers"
+	"github.com/zppvae/go-blog/models"
+	"github.com/zppvae/go-blog/controllers"
 	"github.com/patrickmn/go-cache"
 	"time"
-	"github.com/go-blog/utils"
+	"github.com/zppvae/go-blog/utils"
 )
 
 
