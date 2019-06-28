@@ -3,9 +3,9 @@ package controllers
 import (
 	"github.com/astaxie/beego/context"
 	"github.com/astaxie/beego"
-	"go-blog/models"
+	"github.com/zppvae/go-blog/models"
 	"html/template"
-	"go-blog/utils"
+	"github.com/zppvae/go-blog/utils"
 	"strconv"
 	cache "github.com/patrickmn/go-cache"
 	"strings"
