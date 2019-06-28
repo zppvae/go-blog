@@ -2,9 +2,9 @@ package controllers
 
 import (
 	"html/template"
-	"go-blog/models"
+	"github.com/zppvae/go-blog/models"
 	"github.com/astaxie/beego"
-	"go-blog/utils"
+	"github.com/zppvae/go-blog/utils"
 	"fmt"
 )
 
