@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"go-blog/controllers"
+	"github.com/zppvae/go-blog/controllers"
 	"github.com/astaxie/beego"
 )
 
