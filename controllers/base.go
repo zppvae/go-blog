@@ -4,7 +4,7 @@ import (
 	"github.com/astaxie/beego"
 	"strings"
 	"path"
-	"go-blog/utils"
+	"github.com/zppvae/go-blog/utils"
 )
 
 
